@@ -2,7 +2,8 @@
 pragma solidity ^0.8.4;
 
 contract Staking {
-    event Staking(address indexed _staker, uint256 _amount);
+    event Stake(address indexed _staker, uint256 _amount);
+    event Unstake(address indexed _staker, uint256 _amount);
 
     mapping(address => Stakepage[]) stakeBook;
 
@@ -22,7 +23,7 @@ contract Staking {
             stakepages[0].timestamp = block.timestamp;
         }
         stakeBook[msg.sender] = stakepages;
-        emit Staking(msg.sender, _amount);
+        emit Stake(msg.sender, _amount);
     }
 
     function unstake(uint256 _amount) public {
