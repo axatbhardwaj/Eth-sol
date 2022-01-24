@@ -25,22 +25,28 @@ contract Staking {
         emit Stake(msg.sender, _amount);
     }
 
-    function intrestcalc() {
-        Stakepage[] storage stakepages = stakeBook[msg.sender];
-        if (stakepages.length == 0) {
-            return;
+    // Function to calculate intrest earned on staked tokens
+    function intrestcalc(uint256 totalStaked, uint256 timestamp)
+        private
+        view
+        returns (uint256)
+    {
+        uint256 interest = 0;
+        uint256 totalTime = block.timestamp - timestamp; // time difference to know time passed since last stake tokens staked
+        if (totalTime < 12 weeks) {
+            interest = 0; // intrest is 0 if less than 12 weeks
         }
-        uint256 totalStaked = stakepages[i].amount;
-        uint256 totalTime = block.timestamp - stakepages[i].timestamp;
         if (totalTime > 12 weeks && totalTime < 24 weeks) {
-            uint256 interest = totalStaked * totalTime;
-            msg.sender.transfer(interest);
+            interest = (totalStaked / 15) * 100; // 15% intrest if 12 weeks to 24 weeks
+        } else if (totalTime > 24 weeks && totalTime < 36 weeks) {
+            interest = (totalStaked / 30) * 100; // 30% intrest if 24 weeks to 36 weeks
+        } else if (totalTime > 36 weeks) {
+            interest = (totalStaked / 45) * 100; // 45% intrest if 36 weeks or more
         }
-        uint256 intrest = (totalStaked / 15) * 100;
-        msg.sender.transfer(intrest);
+        return interest;
     }
 
-    function unstake(uint256 _amount) public {
+    function unstake() public {
         Stakepage[] memory stakepages = stakeBook[msg.sender];
         uint256 available_unstakeAmount;
         require(stakepages.length != 0, "No staking to unstake");
@@ -49,10 +55,6 @@ contract Staking {
                 stakepages[i].amount +
                 available_unstakeAmount;
         }
-        require(
-            _amount < available_unstakeAmount,
-            "Not enough staked to unstake"
-        );
-        emit Unstake(msg.sender, _amount);
+        emit Unstake(msg.sender, available_unstakeAmount);
     }
 }
