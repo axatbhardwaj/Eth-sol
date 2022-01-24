@@ -8,7 +8,7 @@ async function main() {
   const {ethers} = require('hardhat')
 	const Staking = await ethers.getContractFactory('Staking')
 	console.log('Deploying Staking...')
-	const bank = await Staking.deploy("0xdc4b03A13b747b8DCffECE8791a096bE570f0598")
+	const bank = await Staking.deploy("0xf6d02FB0AE2779683cdCc87Af7A5941cA1918172")
 	await bank.deployed()
 	console.log('Staking deployed to:', bank.address)
 }
