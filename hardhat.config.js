@@ -22,7 +22,7 @@ module.exports = {
 		// 	accounts: [`${RINKEBY_PRIVATE_KEY}`],
 		// 	//	accounts: { mnemonic: mnemonic },
 		// },
-		mumbai: {
+		polygon_mumbai: {
 			url: `https://polygon-mumbai.g.alchemy.com/v2/6xRVVdMIpHl5vZYLnqDWrZsoLfjgSMmh`,
 			accounts: [`${RINKEBY_PRIVATE_KEY}`],
 		},
