@@ -17,25 +17,21 @@ const RINKEBY_PRIVATE_KEY =
 module.exports = {
 	solidity: '0.8.4',
 	networks: {
-		// rinkeby: {
-		// 	url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-		// 	accounts: [`${RINKEBY_PRIVATE_KEY}`],
-		// 	//	accounts: { mnemonic: mnemonic },
-		// },
+		rinkeby: {
+			url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+			accounts: [`${RINKEBY_PRIVATE_KEY}`],
+		},
 		polygon_mumbai: {
 			url: `https://polygon-mumbai.g.alchemy.com/v2/6xRVVdMIpHl5vZYLnqDWrZsoLfjgSMmh`,
 			accounts: [`${RINKEBY_PRIVATE_KEY}`],
 		},
 	},
 	etherscan: {
-		// Your API key for Etherscan
-		// Obtain one at https://etherscan.io/
-		//apiKey: 'MWS8T42Y8GF7B5MX86FS99GPNC55WYZFKA',
+		
+		//apiKey: 'MWS8T42Y8GF7B5MX86FS99GPNC55WYZFKA', //ethereum
 		apiKey: 'GMX83ND61X7G15B43EK2G3GTSIKPQFHG8Q', //polygon
 	},
-	// polyscan: {
-	// 	apiKey: 'GMX83ND61X7G15B43EK2G3GTSIKPQFHG8Q',
-	// },
+	
 	paths: {
 		sources: './contracts',
 		tests: './test',
