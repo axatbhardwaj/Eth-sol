@@ -1,6 +1,6 @@
 require('@nomiclabs/hardhat-waffle')
-require('solidity-coverage')
-require('@openzeppelin/hardhat-upgrades')
+//require('solidity-coverage')
+//require('@openzeppelin/hardhat-upgrades')
 require('@nomiclabs/hardhat-etherscan')
 
 // Go to https://www.alchemyapi.io, sign up, create
@@ -21,7 +21,7 @@ module.exports = {
 			url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
 			accounts: [`${RINKEBY_PRIVATE_KEY}`],
 		},
-		polygon_mumbai: {
+		polygonmumbai: {
 			url: `https://polygon-mumbai.g.alchemy.com/v2/6xRVVdMIpHl5vZYLnqDWrZsoLfjgSMmh`,
 			accounts: [`${RINKEBY_PRIVATE_KEY}`],
 		},
