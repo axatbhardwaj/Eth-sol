@@ -26,14 +26,13 @@ contract Staking is ReentrancyGuard {
 
     function stake(uint256 _amount) public {
         Stakepage[] storage stakepages = stakeBook[msg.sender];
-        if (stakepages.length == 0) {
-            stakepages.push(
-                Stakepage({amount: _amount, timestamp: block.timestamp})
-            );
-        } else {
-            stakepages[0].amount += _amount;
-            stakepages[0].timestamp = block.timestamp;
-        }
+        require(
+            stakepages.length <= 5,
+            "You can only have 5 stakes , please unstake some"
+        );
+        stakepages.push(
+            Stakepage({amount: _amount, timestamp: block.timestamp})
+        );
         //transfer the amount to the staking contract
         IERC20(tokenaddress).safeTransferFrom(
             msg.sender,
@@ -43,12 +42,12 @@ contract Staking is ReentrancyGuard {
         emit Stake(msg.sender, _amount);
     }
 
-    function viewUnstakeAmount() external view returns (uint256) {
+    function viewUnstakeAmount() public view returns (uint256) {
         Stakepage[] memory stakepages = stakeBook[msg.sender];
         uint256 available_unstakeAmount;
         require(stakepages.length != 0, "No staking to unstake");
         for (uint256 i = 0; i < stakepages.length; i++) {
-            available_unstakeAmount = intrestCalc(
+            available_unstakeAmount += intrestCalc(
                 stakepages[i].amount,
                 stakepages[i].timestamp
             );
@@ -82,12 +81,7 @@ contract Staking is ReentrancyGuard {
         Stakepage[] memory stakepages = stakeBook[msg.sender];
         uint256 available_unstakeAmount;
         require(stakepages.length != 0, "No staking to unstake");
-        for (uint256 i = 0; i < stakepages.length; i++) {
-            available_unstakeAmount = intrestCalc(
-                stakepages[i].amount,
-                stakepages[i].timestamp
-            );
-        }
+        available_unstakeAmount = viewUnstakeAmount();
         require(available_unstakeAmount > 0, "No staking to unstake");
         // transfer tokens to staker from staking contract
         IERC20(tokenaddress).safeTransfer(msg.sender, available_unstakeAmount);
