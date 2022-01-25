@@ -3,22 +3,22 @@ const { expect } = chai;
 const { ethers } = require("hardhat");
 const { solidity } = require("ethereum-waffle");
 chai.use(solidity);
-let Staking;
+let owner, addr, addr1, addr2, addr3, addr4, addr5,token,token1,tokenaddress,Staking,MockToken,staking ;
 const amnt0 = (10 *10 ** 18).toLocaleString('Fullwide',{useGrouping:false,});
 const amnt1 = (100 * 10 ** 18).toLocaleString('Fullwide', { useGrouping: false,});
 const amnt2 = (1000 * 10 ** 18).toLocaleString('Fullwide', { useGrouping: false,});
 describe('Staking Contract', () => {
   beforeEach(async () => {
-    const token = await ethers.getContractFactory("MockToken");
-    const MockToken = await token.deploy('TST', 'T1');
-    const tokenaddress = MockToken.address;
-    [owner, addr, addr1, addr2, addr3, addr4, addr5] = await ethers.getSigners();
+    token = await ethers.getContractFactory("MockToken");
+    MockToken = await token.deploy('TST', 'T1');
+    token1 = await MockToken.deployed();
+    tokenaddress = token1.address;
+    ;[owner, addr, addr1, addr2, addr3, addr4, addr5] = await ethers.getSigners();
     Staking = await ethers.getContractFactory("Staking");
-    const staking = await Staking.deploy(tokenaddress);
+    staking = await Staking.deploy(tokenaddress);
     await staking.deployed();
-    await MockToken.transfer(Staking.address, amnt0);
-  }
-  )
+    await MockToken.transfer(staking.address, amnt0);
+  })
   describe('Staking', () => {
     it('should stake', async () => {
       await MockToken.transfer(addr, amnt2);
